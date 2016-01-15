@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/fifth-postulate/blog/issues"
   },
-  "homepage": "https://github.com/fifth-postulate/blog#readme"
+  "homepage": "https://github.com/fifth-postulate/blog#readme",
+  "dependencies": {
+    "markdown": "^0.5.0"
+  }
 }
