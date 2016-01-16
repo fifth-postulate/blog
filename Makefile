@@ -1,3 +1,4 @@
+.DEFAULT_GOAL: blog
 .PHONE: clean deploy
 
 blog:
