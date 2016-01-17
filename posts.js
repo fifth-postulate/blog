@@ -19,7 +19,7 @@ fs.readdir(config.POSTS_DIRECTORY, function(error, data){
             fs.writeFile(outputName, output, 'utf8', function(error){
                 if (error) throw error;
 
-                console.log('finished writing');
+                console.log('finished writing ' + outputName);
             });
         });
     });
