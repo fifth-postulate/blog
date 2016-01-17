@@ -2,7 +2,7 @@
   "name": "blog",
   "version": "1.0.0",
   "description": "A blog engine for personal blog",
-  "main": "index.js",
+  "main": "posts.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

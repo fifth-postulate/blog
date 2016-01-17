@@ -3,7 +3,7 @@
 
 blog:
 	mkdir -p blog
-	node index.js
+	node posts.js
 
 deploy: blog
 	./deploy.sh
