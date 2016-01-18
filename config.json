@@ -2,6 +2,7 @@
     "POSTS_DIRECTORY": "posts",
     "BLOG_DIRECTORY": "blog",
     "TEMPLATES": {
-        "index": "templates/index.html"
+        "index": "templates/index.html",
+        "post": "templates/index.html"
     }
 }
