@@ -3,6 +3,7 @@
 
 blog:
 	mkdir -p blog
+	cp -r assets/* blog/
 	node posts.js
 	node index.js
 
