@@ -1,4 +1,7 @@
 {
     "POSTS_DIRECTORY": "posts",
-    "BLOG_DIRECTORY": "blog"
+    "BLOG_DIRECTORY": "blog",
+    "TEMPLATES": {
+        "index": "templates/index.html"
+    }
 }
