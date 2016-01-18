@@ -1,26 +1,31 @@
 var fs = require('fs');
 var path = require('path');
 var markdown = require('markdown').markdown;
+var qfs = require('promised-io/fs');
 
 var config = require('./config.json');
 
-fs.readdir(config.POSTS_DIRECTORY, function(error, data){
-    if (error) throw error;
+qfs.readdir(config.POSTS_DIRECTORY)
+    .then(function(posts){
+        posts.forEach(function(post){
+            var fileName = path.join(config.POSTS_DIRECTORY, post);
 
-    data.forEach(function(post){
-        var fileName = path.join(config.POSTS_DIRECTORY, post);
+            qfs.readFile(fileName, 'utf8')
+                .then(function(data){
+                    var output = markdown.toHTML(data);
 
-        fs.readFile(fileName, 'utf8', function(error, data){
-            if (error) throw error;
-
-            var output = markdown.toHTML(data);
-
-            var outputName = path.join(config.BLOG_DIRECTORY, path.basename(post, '.md') + '.html');
-            fs.writeFile(outputName, output, 'utf8', function(error){
-                if (error) throw error;
-
-                console.log('finished writing ' + outputName);
-            });
+                    var outputName = path.join(config.BLOG_DIRECTORY,
+                                               path.basename(post, '.md') + '.html');
+                    return {
+                        'content': output,
+                        'name': outputName
+                    };
+                })
+                .then(function(data){
+                    return qfs.writeFile(data.name, data.content, 'utf8');
+                })
+                .then(function(){
+                    console.log('finished writing ' + post);
+                });
         });
     });
-});
