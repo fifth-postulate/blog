@@ -4,6 +4,7 @@ var qfs = require('promised-io/fs');
 var handlebars = require('handlebars');
 
 var config = require('./config.json');
+var postRegExp = /[.]([^.]*)[.]md/;
 
 qfs.readFile(config.TEMPLATES.index, 'utf8')
     .then(function(templateSource){
@@ -14,9 +15,11 @@ qfs.readFile(config.TEMPLATES.index, 'utf8')
             .then(function(posts){
                 var input = '';
                 posts.forEach(function(post){
+                    var matches = post.match(postRegExp);
+                    var name = matches ? matches[1] : post;
                     var link = path.basename(post, '.md') + '.html';
                     input += '* ';
-                    input += '[' + post + '](' + link + ')\n';
+                    input += '[' + name + '](' + link + ')\n';
                 });
                 var content = markdown.toHTML(input);
                 var output = template({ 'content': content });
