@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Fifth Postulate</title>
+        <link rel="stylesheet" href="css/fifth-postulate.css">
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/solarized-dark.min.css">
+   </head>
+    <body>
+        <section class="header">
+            <h1>Fifth Postulate</h1>
+            <ul>
+                <li>Consultancy</li>
+                <li>Training</li>
+                <li>Public Speaking</li>
+            </ul>
+        </section>
+        <section class="footer">
+            <dl>
+                <dt>KvK</dt>
+                <dd>65044649</dd>
+                <dt>Contact</dt>
+                <dd>info@fifth-postulate.nl</dd>
+            </dl>
+        </section>
+        <section class="content">
+            <h1>Syntax Highlighting</h1>
+
+<p>For the next feature for my blog I would like syntax highlighting. So the
+following code blocks should look pretty.</p>
+
+<pre><code>var qfs = require(&#39;promised-io/fs&#39;);
+var handlebars = require(&#39;handlebars&#39;);
+
+var config = require(&#39;./config.json&#39;);
+
+qfs.readFile(config.TEMPLATES.index, &#39;utf8&#39;)
+    .then(function(templateSource){
+        return handlebars.compile(templateSource);
+    });</code></pre>
+
+<p>The above snippet is a part of the index generation code I use for this blog.</p>
+
+<p>Just for good measure I also want to include some <code>Java</code> code.</p>
+
+<pre><code>package nl.cois;
+
+import java.io.IOException;
+import start.Bot;
+import start.Ants;
+import start.Tile;
+import start.Aim;
+
+public class MyBot extends Bot {
+    public static void main(String[] args) throws IOException {
+        new MyBot().readSystemInput();
+    }
+
+    @Override
+    public void doTurn() {
+        Ants ants = getAnts();
+        for (Tile myAnt : ants.getMyAnts()) {
+            for (Aim direction : Aim.values()) {
+                if (ants.getIlk(myAnt, direction).isPassable()) {
+                    ants.issueOrder(myAnt, direction);
+                    break;
+                }
+            }
+        }
+    }
+}</code></pre>
+
+<p>Let&#39;s find out how they will look.</p>
+        </section>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+    </body>
+</html>

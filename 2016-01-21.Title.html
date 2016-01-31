@@ -4,7 +4,8 @@
         <meta charset="utf-8"/>
         <title>Fifth Postulate</title>
         <link rel="stylesheet" href="css/fifth-postulate.css">
-    </head>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/solarized-dark.min.css">
+   </head>
     <body>
         <section class="header">
             <h1>Fifth Postulate</h1>
@@ -27,13 +28,11 @@
 
 <p>Yesterday I worked on some styling. At the moment it is very minimal. Basically</p>
 
-<p><code>css
-.content {
+<pre><code>.content {
     max-width: 480px;
     margin-left: auto;
     margin-right: auto;
-}
-</code></p>
+}</code></pre>
 
 <p>Nonetheless, it still improved the overall appearance of the blog. I will get to
 better styling in due time.</p>
@@ -42,5 +41,7 @@ better styling in due time.</p>
 file names, which is a bit hard on the eyes. The plan is to read the first line
 of each post and use that for the title.</p>
         </section>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
     </body>
 </html>
