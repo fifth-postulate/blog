@@ -1,5 +1,5 @@
 .DEFAULT_GOAL: blog
-.PHONE: clean deploy
+.PHONY: clean deploy
 
 blog:
 	mkdir -p blog
