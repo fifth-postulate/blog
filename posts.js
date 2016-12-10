@@ -1,5 +1,5 @@
 var path = require('path');
-var markdown = require('markdown').markdown;
+var marked = require('marked');
 var qfs = require('promised-io/fs');
 var handlebars = require('handlebars');
 
@@ -17,7 +17,7 @@ qfs.readFile(config.TEMPLATES.post, 'utf8')
 
                     qfs.readFile(fileName, 'utf8')
                         .then(function(data){
-                            var output = markdown.toHTML(data);
+                            var output = marked(data);
 
                             var outputName = path.join(config.BLOG_DIRECTORY,
                                                        path.basename(post, '.md') + '.html');
