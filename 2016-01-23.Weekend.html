@@ -4,6 +4,7 @@
         <meta charset="utf-8"/>
         <title>Fifth Postulate</title>
         <link rel="stylesheet" href="css/fifth-postulate.css">
+        <link rel="stylesheet" type="text/css" href="http://app.klipse.tech/css/codemirror.css">
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/solarized-dark.min.css">
    </head>
     <body>
@@ -24,20 +25,20 @@
             </dl>
         </section>
         <section class="content">
-            <h1>Weekend</h1>
-
+            <h1 id="weekend">Weekend</h1>
 <p>Yesterday I was able to configure this repository to deploy the page on every
 push. I used <a href="https://travis-ci.org/">Travis CI</a> for this. The most important part is a
 <code>.travis.yml</code> file. This file tells Travis CI what to do with your repository.</p>
-
 <p>One part is the <code>GH_TOKEN</code> that needs to be known to Travis CI. Because the
 token should be handled as if it is a password it is encrypted and stored in the
 <code>.travis.yml</code>. A comprehensive write up can be found in the
 <a href="https://gist.github.com/domenic/ec8b0fc8ab45f39403dd">Travis CI documentation</a>. </p>
-
 <p>Today is the start of the weekend, so I am going to take a rain check on
 developing the blog further.</p>
+
         </section>
+        <script>window.klipse_settings = { selector: '.clojure' };</script>
+        <script src="http://app.klipse.tech/plugin/js/klipse_plugin.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script>
     </body>

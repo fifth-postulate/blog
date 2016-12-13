@@ -4,6 +4,7 @@
         <meta charset="utf-8"/>
         <title>Fifth Postulate</title>
         <link rel="stylesheet" href="css/fifth-postulate.css">
+        <link rel="stylesheet" type="text/css" href="http://app.klipse.tech/css/codemirror.css">
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/solarized-dark.min.css">
    </head>
     <body>
@@ -24,16 +25,17 @@
             </dl>
         </section>
         <section class="content">
-            <h1>Synchronizing style-sheet</h1>
-
+            <h1 id="synchronizing-style-sheet">Synchronizing style-sheet</h1>
 <p>Yesterday I introduced a template engine in the mix. I settled for
 <a href="https://www.npmjs.com/package/handlebars">handlebars</a>, which has a nice load template source, compile template and us
 cycle that fits nicely with promised-io way of transforming posts.</p>
-
 <p>I opted to copy the style-sheet from the main website, but I am unhappy about it.
 This means that I manually need to synchronize the two version. In order to
 remedy that I am automating the task today.</p>
+
         </section>
+        <script>window.klipse_settings = { selector: '.clojure' };</script>
+        <script src="http://app.klipse.tech/plugin/js/klipse_plugin.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script>
     </body>
