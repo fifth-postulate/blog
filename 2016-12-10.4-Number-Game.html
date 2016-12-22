@@ -78,7 +78,7 @@ number and see the corresponding tree structures.</p>
 internal node that corresponds to the arithmetic expression from the solution
 path section. </p>
 <pre><code class="clojure">
-(def tree {:left nil, :right {:left nil, :right nil}})
+(def a-tree {:left nil, :right {:left nil, :right nil}})
 </code></pre>
 
 <p>We can visualize the <code>nil</code> position as buds ready to spring a new tree part. So
@@ -93,7 +93,7 @@ in order to grow our tree we could try to adjoin a part to all buds.</p>
      (map (fn [t] {:left t :right (:right tree)}) (adjoin (:left tree) part))
      (map (fn [t] {:left (:left tree) :right t}) (adjoin (:right tree) part)))))
 
-(adjoin tree :A)
+(adjoin a-tree :A)
 </code></pre>
 
 <p>Here we adjoined a keyword <code>:A</code> and we see that we get three new tree
