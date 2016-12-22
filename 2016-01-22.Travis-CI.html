@@ -35,7 +35,16 @@ make deploy each time I push to the GitHub repository. For this I will be using
 <a href="https://travis-ci.org/">Travis CI</a>.</p>
 
         </section>
-        <script>window.klipse_settings = { selector: '.clojure' };</script>
+        <script>window.klipse_settings = {
+             selector: '.clojure',
+             codemirror_options_in: {
+	               lineWrapping: true,
+	               autoCloseBrackets: true
+	           },
+	           codemirror_options_out: {
+	               lineWrapping: true
+	           }
+         };</script>
         <script src="http://app.klipse.tech/plugin/js/klipse_plugin.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script>

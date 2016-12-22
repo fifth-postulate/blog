@@ -68,7 +68,16 @@ public class MyBot extends Bot {
 </code></pre><p>Let&#39;s find out how they will look.</p>
 
         </section>
-        <script>window.klipse_settings = { selector: '.clojure' };</script>
+        <script>window.klipse_settings = {
+             selector: '.clojure',
+             codemirror_options_in: {
+	               lineWrapping: true,
+	               autoCloseBrackets: true
+	           },
+	           codemirror_options_out: {
+	               lineWrapping: true
+	           }
+         };</script>
         <script src="http://app.klipse.tech/plugin/js/klipse_plugin.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script>
