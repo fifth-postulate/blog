@@ -205,7 +205,7 @@ the order the operators are listed is important. If instead of first applying
 permutation of values and each try them on a tree. Luckily there is a nice
 library that provides these functions.</p>
 <pre><code class="clojure" data-external-libs="https://raw.githubusercontent.com/viebel/math.combinatorics/master/src/main/clojure">
-(require '[clojure.math.combinatorics :refer [permutations selections]]))
+(require '[clojure.math.combinatorics :refer [permutations selections]])
 
 (permutations [:A :B :C])
 </code></pre>
@@ -217,7 +217,7 @@ a given puzzle we can use each value only once.</p>
 the same operator can be used multiple times. Luckily the
 <code>clojure.math.combinatorics</code> library also provides <code>selections</code></p>
 <pre><code class="clojure">
-(require '[clojure.math.combinatorics :refer [permutations selections]]))
+(require '[clojure.math.combinatorics :refer [permutations selections]])
 
 (selections [:A :B :C] 2)
 </code></pre>
@@ -233,7 +233,7 @@ the same operator can be used multiple times. Luckily the
 </ol>
 <pre><code class="clojure">
 (require '[clojure.math.combinatorics :refer [permutations selections]]
-         '[flippo.tree :refer [generate-structure-tree]]))
+         '[flippo.tree :refer [generate-structure-tree]])
 
 (defn solve
   ([operators target values]
@@ -249,7 +249,7 @@ the same operator can be used multiple times. Luckily the
 <p>We can use that to solve our puzzle</p>
 <pre><code class="clojure" data-external-libs="https://raw.githubusercontent.com/dvberkel/flippo/master/src">
 (require '[flippo.solution :refer [solve]]
-         '[flippo.representation :refer [infix]]))
+         '[flippo.representation :refer [infix]])
 
 (map infix (first (solve [1 3 8 8])))
 </code></pre>
