@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Fifth Postulate</title>
+        <link rel="stylesheet" href="css/fifth-postulate.css">
+        <link rel="stylesheet" type="text/css" href="http://app.klipse.tech/css/codemirror.css">
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/solarized-dark.min.css">
+   </head>
+    <body>
+        <section class="header">
+            <h1>Fifth Postulate</h1>
+            <ul>
+                <li>Consultancy</li>
+                <li>Training</li>
+                <li>Public Speaking</li>
+            </ul>
+        </section>
+        <section class="footer">
+            <dl>
+                <dt>KvK</dt>
+                <dd>65044649</dd>
+                <dt>Contact</dt>
+                <dd>info@fifth-postulate.nl</dd>
+            </dl>
+        </section>
+        <section class="content">
+            <h1 id="deployment-of-blog">Deployment of blog</h1>
+<p>I am working on a blog engine and have set up the means to transform a markdown
+file to html. I used the <a href="https://github.com/evilstreak/markdown-js">markdown</a> for the actual
+transformation. It has the added benefit that it can produce an intermediate
+abstract syntax tree representation. This could be useful in the future.</p>
+<p>As can be seen in the <a href="https://github.com/fifth-postulate/blog/tree/2a8d28454f49e0611266911b1e0ee28d91a8dca8">last commit</a> there is still some improvement in
+the transformation code. For example the <code>error</code> variable is shadowed multiple
+times and already the dreaded callback hell is showing. I intend to start using
+promises the flatten the logic.</p>
+<p>But before doing that I would like to look into deploying the code to GitHub
+pages automatically.</p>
+
+        </section>
+        <script>window.klipse_settings = {
+             selector: '.clojure',
+             codemirror_options_in: {
+	               lineWrapping: true,
+	               autoCloseBrackets: true
+	           },
+	           codemirror_options_out: {
+	               lineWrapping: true
+	           }
+         };</script>
+        <script src="http://app.klipse.tech/plugin/js/klipse_plugin.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+    </body>
+</html>

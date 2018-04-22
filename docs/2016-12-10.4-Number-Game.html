@@ -1,0 +1,273 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Fifth Postulate</title>
+        <link rel="stylesheet" href="css/fifth-postulate.css">
+        <link rel="stylesheet" type="text/css" href="http://app.klipse.tech/css/codemirror.css">
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/solarized-dark.min.css">
+   </head>
+    <body>
+        <section class="header">
+            <h1>Fifth Postulate</h1>
+            <ul>
+                <li>Consultancy</li>
+                <li>Training</li>
+                <li>Public Speaking</li>
+            </ul>
+        </section>
+        <section class="footer">
+            <dl>
+                <dt>KvK</dt>
+                <dd>65044649</dd>
+                <dt>Contact</dt>
+                <dd>info@fifth-postulate.nl</dd>
+            </dl>
+        </section>
+        <section class="content">
+            <h1 id="4-number-game">4 Number Game</h1>
+<p>The <a href="http://www.4nums.com">4 number game</a> is a well known arithmetic puzzle that
+can be played in groups. You are presented with four numbers, e.g. 1 1 11 11,
+and are given the goal to make 24 by using the arithmetic operators <code>+</code>, <code>*</code>,
+<code>-</code>, <code>/</code> and liberal use of parenthesis.</p>
+<p>As the below code shows, adding all the numbers will solve the puzzle.</p>
+<pre><code class="clojure">(+ 1 1 11 11)</code></pre>
+
+<p>In this blog post we will explore code that can find solutions to these puzzles.
+One puzzle that is a little more interesting than the other is to try to make 24
+with 1 3 8 8.</p>
+<h2 id="solution-path">Solution Path</h2>
+<p>Every arithmetic expression, e.g. <code>1 + 2 * 3</code>, can be seen as a a tree. In
+this case the tree would be</p>
+<pre><code>  +
+ / \
+1   *
+   / \
+  2   3
+</code></pre><p>This tree tells us that we need to add <code>1</code> and the product of <code>2</code> and <code>3</code>. I we
+squint with our eyes and only take into account the structure of the tree, we
+would see the following </p>
+<pre><code>
+ / \
+
+   / \
+
+</code></pre><p>The only thing that is missing from this tree are the operators, which should go
+into the internal positions of the tree, and the numbers, which should go in the
+leaf positions.</p>
+<p>So our solution will be:</p>
+<ol>
+<li>Generate all the possible tree structures</li>
+<li>Decorate a tree structure with all possible operators and all possible values</li>
+<li>Evaluate an expression tree</li>
+<li>Putting it together</li>
+</ol>
+<h2 id="generating-all-tree-structures">Generating all tree structures</h2>
+<p>In the following code snippet we generate all the tree structures with only one
+internal node. There is only one, which can be seen.</p>
+<pre><code class="clojure" data-external-libs="https://raw.githubusercontent.com/dvberkel/flippo/master/src">
+(require '[flippo.tree :refer [generate-structure-tree]])
+
+(generate-structure-tree 1)
+</code></pre>
+
+<p>This blog post is enhanced with <a href="https://github.com/viebel/klipse">klipse</a>,
+which means that all code snippets are interactive. Go ahead and change the
+number and see the corresponding tree structures.</p>
+<p>How can one generate these structures?</p>
+<p>Let&#39;s first think of growing a single tree. Below we have a tree with two
+internal node that corresponds to the arithmetic expression from the solution
+path section. </p>
+<pre><code class="clojure">
+(def a-tree {:left nil, :right {:left nil, :right nil}})
+</code></pre>
+
+<p>We can visualize the <code>nil</code> position as buds ready to spring a new tree part. So
+in order to grow our tree we could try to adjoin a part to all buds.</p>
+<pre><code class="clojure">
+(defn adjoin [tree part]
+  "Returns a sequence of structured trees where part is adjoined to
+   all the buds in tree"
+  (if (nil? tree)
+    (seq [part])
+    (concat
+     (map (fn [t] {:left t :right (:right tree)}) (adjoin (:left tree) part))
+     (map (fn [t] {:left (:left tree) :right t}) (adjoin (:right tree) part)))))
+
+(adjoin a-tree :A)
+</code></pre>
+
+<p>Here we adjoined a keyword <code>:A</code> and we see that we get three new tree
+structures. Try to adjoin a small tree structure <code>{:left nil :right nil}</code>.</p>
+<p>This is the basis of the <code>generate-structure-tree</code> algorithm. There is only one
+tree with zero internal nodes, i.e. <code>nil</code>. It can serve as a basis to sprout
+small trees from the buds. Doing this recursively gives us our algorithm.</p>
+<h2 id="decorate-a-tree-structure">Decorate a Tree Structure</h2>
+<p>Now that we can generate tree structures, we would like to decorate them with
+tree operators and values. The basic algorithm for that is visiting all nodes in
+the tree and assign values to the leaves and operator to the internal nodes.</p>
+<p>A <a href="https://en.wikipedia.org/wiki/Generator_(computer_programming">generator</a>
+helps us in this case. We could use it to request the next value we haven&#39;t use.
+Lets implement a generator.</p>
+<pre><code class="clojure">
+(defn generator [elements]
+  "Creates a generator that loops through the vector elements"
+  (let [index (atom 0)]
+    (fn []
+      (let [current-index @index]
+        (do
+          (swap! index #(mod (inc %) (count elements)))
+          (nth elements current-index))))))
+
+(def keyword-generator (generator [:A :B :C]))
+
+(keyword-generator)
+(keyword-generator)
+</code></pre>
+
+<p>Our <code>generator</code> is a high-order function in the sense that it returns a
+function. The function closes over an <a href="http://clojure.org/reference/atoms">atom</a>
+that keeps track of an index. The index is used to retrieve an element from the
+elements provided as an argument to <code>generator</code> call.</p>
+<p>We created a keyword generator and called it twice. This returns <code>:B</code>. Add a new
+call to <code>keyword-generator</code> and it will cycle through the values <code>:A</code>, <code>:B</code> and
+<code>:C</code>. </p>
+<p>How can we use this?</p>
+<p>Lets assume we have a tree that we want to decorate. Furthermore, we have an
+generator that cycles through a selection of operators, e.g. <code>*</code> and <code>+</code>, and a
+generator that cycles through some values, e.g. <code>1</code>, <code>2</code> and <code>3</code>. What we could
+do is walk the tree and transform it in the following fashion. For each internal
+node of the tree, request and operator from the operator generator, and
+associate it with that node. Furthermore, for each leaf node, request a value
+from the value generator and make a value node.</p>
+<p>The only unknown is the question: how to traverse a tree. Lets implement it
+right away.</p>
+<pre><code class="clojure">
+(defn map-tree [f tree]
+  "Let f operate on all the nodes of the tree"
+  (if (nil? tree)
+    (f tree nil nil)
+    (f tree (map-tree f (:left tree)) (map-tree f (:right tree)))))
+</code></pre>
+
+<p><code>map-tree</code> takes a function <code>f</code> and a tree and applies each node of the tree,
+together with its two children to <code>f</code>. We can use it to decorate the tree with
+the operators and values.</p>
+<pre><code class="clojure">
+(defn decorate [operators values tree]
+  "Transforms a structured tree into a tree ready for evaluation. It walks the tree
+   and transform nil nodes into value-nodes, and non-nil nodes into operator nodes.
+   This is done in a cyclic fashion, both for the operators and the values."
+  (let [
+        operator-generator (generator operators)
+        value-generator    (generator values)
+        transformer        (fn [tree left right]
+                             (if (nil? tree)
+                               {:value (value-generator)}
+                               {:operator (operator-generator) :left left :right right}))]
+    (map-tree transformer tree)))
+
+(decorate '[* +] [1 2 3] {:left nil :right {:left nil :right nil}})
+</code></pre>
+
+<p>It seems to have worked. Make sure to try different operators, values and tree.
+Then move on to the next phase. Note that we have quoted the list of operators.
+This is to clean up the output. See what happens when you remove the <code>&#39;</code>.</p>
+<h2 id="evaluating-a-tree">Evaluating a Tree</h2>
+<p>Now that we have a abstract syntax tree of our arithmetic expression, we want to
+evaluate it. Evaluation is nothing more than applying the correct operation to
+the (evaluated) value of the left sub-tree and the (evaluated) value of the
+right sub-tree.</p>
+<pre><code class="clojure">
+(defn evaluate [tree]
+  "Evaluates a tree representation like {:operator + :left {:value 1} :right {:value 2}}
+   to the corresponding value, i.e. 3."
+  (if (:operator tree)
+    ((:operator tree) 
+      (evaluate (:left tree)) 
+      (evaluate (:right tree)))
+    (:value tree)))
+
+(def tree (decorate [* +] [1 2 3] {:left nil :right {:left nil :right nil}}))
+
+(evaluate tree)
+</code></pre>
+
+<p>The tree in the above snippet represents the calculation <code>1 + (2 * 3)</code>, so it
+produces the correct answer. There is only one problem that could occur. If we
+would allow the operator <code>/</code> and the value <code>0</code>, possibly this could lead to a
+divide by zero answer. A <code>safe-evaluate</code> would catch this <code>ArithmeticException</code>
+and just return <code>nil</code>.</p>
+<h2 id="putting-it-together">Putting it Together</h2>
+<p>If you have experimented with the tree decorations, you may have noticed that
+the order the operators are listed is important. If instead of first applying
+<code>*</code> and than <code>+</code>, you reverse the order, the answer is different.</p>
+<p>So we should try to have all possible selections of operators and all
+permutation of values and each try them on a tree. Luckily there is a nice
+library that provides these functions.</p>
+<pre><code class="clojure" data-external-libs="https://raw.githubusercontent.com/viebel/math.combinatorics/master/src/main/clojure">
+(require '[clojure.math.combinatorics :refer [permutations selections]])
+
+(permutations [:A :B :C])
+</code></pre>
+
+<p>Above we see all possible permutations of three elements. This is ideal for
+trying out all possible assignments of values, because no value is repeated. For
+a given puzzle we can use each value only once.</p>
+<p>We need something else if we want to try out all assignments of operators, because
+the same operator can be used multiple times. Luckily the
+<code>clojure.math.combinatorics</code> library also provides <code>selections</code></p>
+<pre><code class="clojure">
+(require '[clojure.math.combinatorics :refer [permutations selections]])
+
+(selections [:A :B :C] 2)
+</code></pre>
+
+<p>Here we see all possible two element sequence drawn from the vector <code>[:A :B
+:C]</code>. We can use that in order to solve our puzzle. The algorithm is</p>
+<ol>
+<li>Generate all possible selection of operators.</li>
+<li>Generate all possible permutation of values.</li>
+<li>Generate all structure trees.</li>
+<li>Decorate each combination of trees with operators and values.</li>
+<li>Filter the ones that do not reach the target.</li>
+</ol>
+<pre><code class="clojure">
+(require '[clojure.math.combinatorics :refer [permutations selections]]
+         '[flippo.tree :refer [generate-structure-tree]])
+
+(defn solve
+  ([operators target values]
+   "Returns all trees that use operators to form target"
+   (filter #(= target (evaluate %))
+           (let [nodes (dec (count values))]
+             (for [os (selections operators nodes)
+                   vs (permutations values)
+                   tree (generate-structure-tree nodes)]
+               (decorate os vs tree))))))
+</code></pre>
+
+<p>We can use that to solve our puzzle</p>
+<pre><code class="clojure" data-external-libs="https://raw.githubusercontent.com/dvberkel/flippo/master/src">
+(require '[flippo.solution :refer [solve]]
+         '[flippo.representation :refer [infix]])
+
+(map infix (solve [* + - /] 24 [1 3 8 8]))
+</code></pre>
+
+        </section>
+        <script>window.klipse_settings = {
+             selector: '.clojure',
+             codemirror_options_in: {
+	               lineWrapping: true,
+	               autoCloseBrackets: true
+	           },
+	           codemirror_options_out: {
+	               lineWrapping: true
+	           }
+         };</script>
+        <script src="http://app.klipse.tech/plugin/js/klipse_plugin.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+    </body>
+</html>

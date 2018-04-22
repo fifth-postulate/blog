@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Fifth Postulate</title>
+        <link rel="stylesheet" href="css/fifth-postulate.css">
+        <link rel="stylesheet" type="text/css" href="http://app.klipse.tech/css/codemirror.css">
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/solarized-dark.min.css">
+   </head>
+    <body>
+        <section class="header">
+            <h1>Fifth Postulate</h1>
+            <ul>
+                <li>Consultancy</li>
+                <li>Training</li>
+                <li>Public Speaking</li>
+            </ul>
+        </section>
+        <section class="footer">
+            <dl>
+                <dt>KvK</dt>
+                <dd>65044649</dd>
+                <dt>Contact</dt>
+                <dd>info@fifth-postulate.nl</dd>
+            </dl>
+        </section>
+        <section class="content">
+            <h1 id="an-apl-quine">An APL Quine</h1>
+<p><a href="https://en.wikipedia.org/wiki/APL_(programming_language">APL</a>) is a</p>
+<blockquote>
+<p> programming language developed in the 1960s by Kenneth E. Iverson. Its
+ central datatype is the multidimensional array. It uses a large range of
+ special graphic symbols to represent most functions and operators,
+ leading to very concise code. It has been an important influence on the
+ development of concept modeling, spreadsheets, functional programming,
+ and computer math packages. It has also inspired several other programming
+ languages.</p>
+</blockquote>
+<p><em>(Source wikipedia)</em></p>
+<p>I recently started studying APL. An challenging exercise in any language is to
+make a <a href="https://en.wikipedia.org/wiki/Quine_%28computing%29">quine</a>; a program
+that prints it&#39;s own source code.</p>
+<p>Below you can find my quine in APL. Now let&#39;s hope I can understand it myself
+after a month or two.</p>
+<pre><code class="lang-apl">2↓40⍴20⍴¯1⌽19⍴18⍴&#39;&#39;&#39;2↓40⍴20⍴¯1⌽19⍴18⍴&#39;
+</code></pre>
+
+        </section>
+        <script>window.klipse_settings = {
+             selector: '.clojure',
+             codemirror_options_in: {
+	               lineWrapping: true,
+	               autoCloseBrackets: true
+	           },
+	           codemirror_options_out: {
+	               lineWrapping: true
+	           }
+         };</script>
+        <script src="http://app.klipse.tech/plugin/js/klipse_plugin.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+    </body>
+</html>
