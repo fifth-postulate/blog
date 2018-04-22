@@ -1,6 +1,6 @@
 {
     "POSTS_DIRECTORY": "posts",
-    "BLOG_DIRECTORY": "blog",
+    "BLOG_DIRECTORY": "docs",
     "TEMPLATES": {
         "index": "templates/index.html",
         "post": "templates/index.html"
